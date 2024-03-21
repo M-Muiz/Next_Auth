@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "Username is required"]
@@ -24,3 +24,7 @@ const userSchema = new mongoose.Schema({
     forgotPasswordToken: String,
     forgotPasswordTokenExpires: Date
 });
+
+const User = mongoose.models.users || mongoose.model("users", UserSchema);
+
+export default User;
