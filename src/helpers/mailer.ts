@@ -23,22 +23,26 @@ export const sendMail = async ({ email, emailType, userId }: any) => {
         }
 
 
-        const transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false, // Use `true` for port 465, `false` for all other ports
-            auth: {
-                user: "maddison53@ethereal.email",
-                pass: "jn7jnAPss4f63QBp6D",
-            },
-        });
 
+        var transporter = nodemailer.createTransport({
+            host: "sandbox.smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: process.env.NODEMAILER_USER,
+                pass: process.env.NODEMAILER_PASSWORD
+            }
+        });
 
         const mailOptions = {
             from: 'demo@gmail.com',
             to: email,
-            subject: emailType === "verification" ? "Email Verification" : "forgotPassword",
-            html: "<b>Hello world?</b>", // html body
+            subject: emailType === "verification" ? "Verify your email" : "Reset your password",
+            html: `
+            <p>Click<a href="${process.env.DOMAIN}/verifyemail?token=${hashed}">here</a>to ${emailType === "verification" ? "Verify your email" : "Reset your password"}
+                or copy and paste this link in your browser:
+                <br />
+                ${process.env.DOMAIN}/verifyemail?token=${hashed}
+            </p>`
         };
 
 
